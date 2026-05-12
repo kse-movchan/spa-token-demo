@@ -16,10 +16,8 @@ RUN chmod +x gradlew && ./gradlew build -x test --no-daemon
 
 # Stage 3: Runtime
 FROM eclipse-temurin:21-jre
-RUN groupadd -r appuser && useradd -r -g appuser -u 1000 appuser
 WORKDIR /app
 COPY --from=backend-build /app/backend/build/libs/*.jar app.jar
-RUN chown -R appuser:appuser /app
 USER 1000
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
